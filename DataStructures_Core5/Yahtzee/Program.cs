@@ -55,6 +55,49 @@ namespace Yahtzee
              *  
              *  display a message about who won
              */
+            int[] userScoreCard;
+            int[] compScoreCard;
+            int userMoves = 0;
+            int compMoves = 0;
+            bool userTurn = false;
+
+            ResetScorecard(userScoreCard);
+            ResetScorecard(compScoreCard);
+
+            Console.SetWindowSize(50, 50);
+            do
+            {
+                if (!userTurn)
+                    userTurn = true;
+                else userTurn = false;
+                UpdateScorecard(userScoreCard);
+                UpdateScorecard(compScoreCard);
+                if (userTurn)
+                {
+                    Console.WriteLine("display");
+                    UserPlay();
+                }
+                else
+                {
+                    Console.WriteLine("display");
+                    ComputerPlay();
+                }
+            } while (userMoves <= YAHTZEE && compMoves <= YAHTZEE);
+
+                /*do
+                *set the userTurn variable to the opposite value
+             *call UpdateScorecard for the user
+             *call UpdateScorecard for the computer
+             *call DisplayScorecards
+             *      if it's the user's turn
+             *display a message
+             *you might also want to pause
+             * call UserPlay
+             *      else
+                *display a message
+             *call ComputerPlay
+             * end if
+             *  while both the user's count and the computer's count are <= yahtzee */
 
             Console.ReadLine();
         }
@@ -63,15 +106,19 @@ namespace Yahtzee
 
         // sets all of the items in a scorecard to -1 to start the game
         // takes a data structure for a scorecard and the corresponding score card count as parameters.  Both are altered by the method.
-        static void ResetScorecard(/* TODO */)
+        static void ResetScorecard(int[] scoreCard)
         {
+            for (int i = 0; i < scoreCard.Length; i++)
+            {
+                scoreCard[i] = -1;
+            }
         }
 
         // calculates the subtotal, bonus and the total for the scorecard
         // takes a data structure for a scorecard as it's parameter
-        static void UpdateScorecard(/* TODO */)
+        static void UpdateScorecard(int[] scorecard)
         {
-            /* you can uncomment this code once you declare the parameter
+            
             scorecard[SUBTOTAL] = 0;
             scorecard[BONUS] = 0;
             for (int i = ONES; i <= SIXES; i++)
@@ -85,7 +132,7 @@ namespace Yahtzee
             for (int i = THREE_OF_A_KIND; i <= YAHTZEE; i++)
                 if (scorecard[i] != -1)
                     scorecard[TOTAL] += scorecard[i];
-            */
+            
         }
 
         static string FormatCell(int value)
@@ -94,9 +141,9 @@ namespace Yahtzee
         }
 
         // takes the data structure for the user's scorecard and the data structure for the computer's scorecard as parameters
-        static void DisplayScoreCards(/* TODO */)
+        static void DisplayScoreCards(int[] uScorecard, int[]cScorecard)
         {
-            /* you can uncomment this code when you have declared the parameters
+            
             string[] labels = {"Ones", "Twos", "Threes", "Fours", "Fives", "Sixes",
                                 "3 of a Kind", "4 of a Kind", "Full House", "Small Straight", "Large Straight",
                                 "Chance", "Yahtzee", "Sub Total", "Bonus", "Total Score"};
@@ -123,7 +170,7 @@ namespace Yahtzee
             Console.WriteLine(border);
             Console.WriteLine(String.Format(lineFormat, labels[TOTAL], FormatCell(uScorecard[TOTAL]), FormatCell(cScorecard[TOTAL]), ""));
             Console.WriteLine(border);
-            */
+            
         }
         #endregion
 
@@ -271,32 +318,42 @@ namespace Yahtzee
         // counts how many of a specified value are in the set of dice
         // takes the value that you're counting and the data structure containing the set of dice as it's parameter
         // returns the count
-        static int Count(/* TODO */)
+        static int Count(int value,int[] dice)
         {
             int count = 0;
-
+            foreach (int die in dice)
+            {
+                if (die == value)
+                    count++;
+            }
             return count;
         }
 
         // counts the number of ones, twos, ... sixes in the set of dice
         // takes a data structure for a set of dice as it's parameter
         // returns a data structure that contains the count for each dice value
-        static /* TODO */ void GetCounts(/* TODO */)
+        static int[] GetCounts(int[] dice)
         {
+            int[] counter = new int[6];
+            for (int i = 1; i < 6; i++)
+            {
+                counter[i] = Count(i, dice);
+            }
+            return counter;
         }
 
         // adds the value of all of the dice based on the counts
         // takes a data structure that represents all of the counts as a parameter
-        static int Sum(/* TODO */)
+        static int Sum(int[] counts)
         {
             int sum = 0;
-            /* you can uncomment this code once you have declared the parameter
+             
             for (int i = ONES; i <= SIXES; i++)
             {
                 int value = i + 1;
                 sum += (value * counts[i]);
             }
-            */
+            
             return sum;
         }
 
@@ -388,7 +445,7 @@ namespace Yahtzee
 
         // scores a score card item based on the set of dice
         // takes an integer which represent the scorecard item as well as a data structure representing a set of dice as parameters
-        static int Score(/* TODO */)
+        static int Score(int score,/* TODO */int[] dice)
         {
             /* you can uncomment this code once you declare the parameter
             int[] counts = GetCounts(dice);
