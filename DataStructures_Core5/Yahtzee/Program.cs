@@ -68,40 +68,43 @@ namespace Yahtzee
             ResetScorecard(compScoreCard);
 
             Console.WindowHeight = 50;
-            do
+            Console.WriteLine("It is your turn");
+            UserPlay(userScoreCard, userMoves);
+            Console.ReadLine();
+            /*do
             {
-                userTurn = !userTurn;
+                userTurn = !(userTurn);
                 UpdateScorecard(userScoreCard);
                 UpdateScorecard(compScoreCard);
-
+                
                 if (userTurn)
                 {
-                    Console.WriteLine("display message");
+                    Console.WriteLine("It is your turn");
                     UserPlay(userScoreCard, userMoves);
                     Console.ReadLine();
                 }
-                else
+                /*else
                 {
-                    Console.WriteLine("display");
+                    Console.WriteLine("It is the computers turn");
                     ComputerPlay(compScoreCard, compMoves);
                     Console.ReadLine();
                 }
-            } while (userMoves <= YAHTZEE && compMoves <= YAHTZEE);
+            } while (userMoves <= YAHTZEE && compMoves <= YAHTZEE); */
 
-                /*do
-                *set the userTurn variable to the opposite value
-             *call UpdateScorecard for the user
-             *call UpdateScorecard for the computer
-             *call DisplayScorecards
-             *      if it's the user's turn
-             *display a message
-             *you might also want to pause
-             * call UserPlay
-             *      else
-                *display a message
-             *call ComputerPlay
-             * end if
-             *  while both the user's count and the computer's count are <= yahtzee */
+            /*do
+            *set the userTurn variable to the opposite value
+         *call UpdateScorecard for the user
+         *call UpdateScorecard for the computer
+         *call DisplayScorecards
+         *      if it's the user's turn
+         *display a message
+         *you might also want to pause
+         * call UserPlay
+         *      else
+            *display a message
+         *call ComputerPlay
+         * end if
+         *  while both the user's count and the computer's count are <= yahtzee */
 
             Console.ReadLine();
         }
@@ -387,7 +390,7 @@ namespace Yahtzee
 
         // determines if you have a specified count based on the counts
         // takes a data structure that represents all of the counts as a parameter
-        static bool HasCount(int[] counts)
+        static bool HasCount(int howMany, int[] counts)
         {
             foreach (int count in counts)
                 if (howMany == count)
@@ -417,7 +420,7 @@ namespace Yahtzee
         // scores 3 of a kind.  4 of a kind or 5 of a kind also can be used for 3 of a kind
         // the sum of the dice are used for the score
         // takes a data structure that represents all of the counts as a parameter
-        static int ScoreThreeOfAKind(/* TODO */)
+        static int ScoreThreeOfAKind(int[] counts)
         {
             return 0;
         }
@@ -425,9 +428,9 @@ namespace Yahtzee
         // WRITE ALL OF THESE: ScoreFourOfAKind, ScoreYahtzee - a yahtzee is worth 50 points
 
         // takes a data structure that represents all of the counts as a parameter
-        static int ScoreFullHouse(/* TODO */)
+        static int ScoreFullHouse(int[] counts)
         {
-            /* you can uncomment this code once you declare the parameter
+            
             if (HasCount(2, counts) && HasCount(3, counts))
                 return 25;
             else
@@ -437,9 +440,9 @@ namespace Yahtzee
         }
 
         // takes a data structure that represents all of the counts as a parameter
-        static int ScoreSmallStraight(/* TODO */)
+        static int ScoreSmallStraight(int[] counts)
         {
-            /* you can uncomment this code once you declare the parameter
+            
             for (int i = THREES; i <= FOURS; i++)
             {
                 if (counts[i] == 0)
@@ -450,14 +453,14 @@ namespace Yahtzee
                 (counts[FIVES] >= 1 && counts[SIXES] >= 1))
                 return 30;
             else
-            */
+            
             return 0;
         }
 
         // takes a data structure that represents all of the counts as a parameter
-        static int ScoreLargeStraight(/* TODO */)
+        static int ScoreLargeStraight(int[] counts)
         {
-            /* you can uncomment this code once you declare the parameter
+            
             for (int i = TWOS; i <= FIVES; i++)
             {
                 if (counts[i] == 0)
@@ -466,13 +469,13 @@ namespace Yahtzee
             if (counts[ONES] == 1 || counts[SIXES] == 1)
                 return 40;
             else
-            */
+
             return 0;
         }
 
         // scores a score card item based on the set of dice
         // takes an integer which represent the scorecard item as well as a data structure representing a set of dice as parameters
-        static int Score(/* TODO */)
+        static int Score(int[] counts)
         {
             /* you can uncomment this code once you declare the parameter
             int[] counts = GetCounts(dice);
