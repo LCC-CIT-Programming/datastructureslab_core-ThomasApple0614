@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace Yahtzee
 {
@@ -55,32 +57,32 @@ namespace Yahtzee
              *  
              *  display a message about who won
              */
-            int[] userScoreCard;
-            int[] compScoreCard;
-            int userMoves = 0;
-            int compMoves = 0;
+            int[] userScoreCard = new int[TOTAL];
+            int[] compScoreCard = new int[TOTAL];
+            int userMoves, compMoves;
             bool userTurn = false;
 
             ResetScorecard(userScoreCard);
             ResetScorecard(compScoreCard);
 
-            Console.SetWindowSize(50, 50);
+            Console.WindowHeight = 50;
             do
             {
-                if (!userTurn)
-                    userTurn = true;
-                else userTurn = false;
+                userTurn = !userTurn;
                 UpdateScorecard(userScoreCard);
                 UpdateScorecard(compScoreCard);
+
                 if (userTurn)
                 {
-                    Console.WriteLine("display");
-                    UserPlay();
+                    Console.WriteLine("display message");
+                    UserPlay(userScoreCard, userMoves);
+                    Console.ReadLine();
                 }
                 else
                 {
                     Console.WriteLine("display");
-                    ComputerPlay();
+                    ComputerPlay(compScoreCard, compMoves);
+                    Console.ReadLine();
                 }
             } while (userMoves <= YAHTZEE && compMoves <= YAHTZEE);
 
@@ -283,32 +285,47 @@ namespace Yahtzee
 
         // implments the user's turn
         // takes the user's scorecard data structure and the user's move count as parameters.  Both will be altered by the method.
-        static void UserPlay(/* TODO */)
+        static void UserPlay(int[] userScoreCard, int userMoves)
         {
-            /*
-             * declare a data structure for the dice that the user is rolling
-             * declare a data structure for the dice that the user is keeping
-             * 
-             * declare a variable for the number of rolls
-             * declare a variable for the scorecard item that the user wants to score on this turn
-             * 
-             * do
-             *      Call Roll
-             *      increment the number of rolls
-             *      display a message
-             *      Call DisplayDice
-             *      if the number of rolls is < 3
-             *          Call GetKeeping
-             *      else
-             *          Call MoveRollToKeeping
-             *      end if
-             *      Call DisplayDice
-             * while the number of rolls < 3 and the number of dice the user is keeping is < 5
-             * 
-             * Call GetScorecardItem
-             * Call Score
-             * Increment the scorecard count
-             */
+
+            //declare a data structure for the dice that the user is rolling
+            int[] rollingDice = new int[5];
+            //declare a data structure for the dice that the user is keeping
+            int[] keepDice = new int[5];
+            // declare a variable for the number of rolls
+            int rolls = 0;
+            //declare a variable for the scorecard item that the user wants to score on this turn
+            int scorecardItem;
+            do
+            {
+                Roll();
+                rolls++;
+                DisplayDice();
+                if (rolls < 3)
+                    GetKeeping();
+                else
+                    MoveRollToKeep();
+                DisplayDice();
+            } while (rolls < 3 && keepDice.Length < 5);
+            /* do
+            *      Call Roll
+            *      increment the number of rolls
+            *      display a message
+            *      Call DisplayDice
+            *      if the number of rolls is < 3
+            *          Call GetKeeping
+            *      else
+            *          Call MoveRollToKeeping
+            *      end if
+            *      Call DisplayDice
+            * while the number of rolls < 3 and the number of dice the user is keeping is < 5 */
+
+            // Call GetScorecardItem
+            GetScorecardItem();
+            //all Score
+         
+             // Increment the scorecard count
+             
         }
 
         #endregion
@@ -318,7 +335,7 @@ namespace Yahtzee
         // counts how many of a specified value are in the set of dice
         // takes the value that you're counting and the data structure containing the set of dice as it's parameter
         // returns the count
-        static int Count(int value,int[] dice)
+        static int Count(int value,List<int> dice)
         {
             int count = 0;
             foreach (int die in dice)
@@ -332,12 +349,13 @@ namespace Yahtzee
         // counts the number of ones, twos, ... sixes in the set of dice
         // takes a data structure for a set of dice as it's parameter
         // returns a data structure that contains the count for each dice value
-        static int[] GetCounts(int[] dice)
+        static int[] GetCounts(List<int> dice)
         {
             int[] counter = new int[6];
             for (int i = 1; i < 6; i++)
             {
                 counter[i] = Count(i, dice);
+         
             }
             return counter;
         }
@@ -445,7 +463,7 @@ namespace Yahtzee
 
         // scores a score card item based on the set of dice
         // takes an integer which represent the scorecard item as well as a data structure representing a set of dice as parameters
-        static int Score(int score,/* TODO */int[] dice)
+        static int Score(/* TODO */)
         {
             /* you can uncomment this code once you declare the parameter
             int[] counts = GetCounts(dice);
