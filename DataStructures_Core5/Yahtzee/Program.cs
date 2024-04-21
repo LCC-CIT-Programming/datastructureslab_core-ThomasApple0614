@@ -57,9 +57,11 @@ namespace Yahtzee
              *  
              *  display a message about who won
              */
+
             int[] userScoreCard = new int[TOTAL];
             int[] compScoreCard = new int[TOTAL];
-            int userMoves, compMoves;
+            int userMoves = 0;
+            int compMoves = 0;
             bool userTurn = false;
 
             ResetScorecard(userScoreCard);
@@ -179,14 +181,20 @@ namespace Yahtzee
         #region Rolling Methods
         // rolls the specified number of dice and adds them to the data structure for the dice
         // takes an integer that represents the number of dice to roll and a data structure to hold the dice as it's parameters
-        static void Roll(/* TODO */)
+        static void Roll(int numberOfDice, List<int> dice)
         {
+            Random rand = new Random();
+            for (int i = 0; i < numberOfDice; i++)
+            {
+                int roll = rand.Next(1,7);
+                dice.Add(roll);
+            }
         }
 
         // takes a data structure that is a set of dice as it's parameter.  Call it dice.
-        static void DisplayDice(/* TODO */)
+        static void DisplayDice(List<int> dice)
         {
-            /* you can uncomment this code when you have declared the parameter
+            
             string lineFormat = "|   {0}  |";
             string border = "*------*";
             string second = "|      |";
@@ -206,7 +214,7 @@ namespace Yahtzee
             foreach (int d in dice)
                 Console.Write(border);
             Console.WriteLine();
-            */
+            
         }
         #endregion
 
@@ -263,8 +271,9 @@ namespace Yahtzee
 
         // moves the dice that the user want to keep from the rolling data structure to the keeping data structure
         // takes the rolling data structure and the keeping data structure as parameters
-        static void GetKeeping(/* TODO */)
+        static void GetKeeping(List<int> rollingDice, List<int> keepingDice)
         {
+
         }
 
         // on the last roll moves the dice that the user just rolled into the data structure for the dice that the user is keeping
@@ -289,24 +298,25 @@ namespace Yahtzee
         {
 
             //declare a data structure for the dice that the user is rolling
-            int[] rollingDice = new int[5];
+            List<int> rollingDice = new List<int>();
+       
             //declare a data structure for the dice that the user is keeping
-            int[] keepDice = new int[5];
+            List<int> keepingDice = new List<int>();
             // declare a variable for the number of rolls
             int rolls = 0;
             //declare a variable for the scorecard item that the user wants to score on this turn
             int scorecardItem;
             do
             {
-                Roll();
+                Roll(rolls, rollingDice);
                 rolls++;
-                DisplayDice();
+                DisplayDice(rollingDice);
                 if (rolls < 3)
-                    GetKeeping();
+                    GetKeeping(rollingDice,keepingDice);
                 else
                     MoveRollToKeep();
-                DisplayDice();
-            } while (rolls < 3 && keepDice.Length < 5);
+                DisplayDice(keepingDice);
+            } while (rolls < 3 && keepingDice.Count < 5);
             /* do
             *      Call Roll
             *      increment the number of rolls
@@ -377,13 +387,12 @@ namespace Yahtzee
 
         // determines if you have a specified count based on the counts
         // takes a data structure that represents all of the counts as a parameter
-        static bool HasCount(/* TODO */)
+        static bool HasCount(int[] counts)
         {
-            /* you can uncomment this when you declare the parameter
             foreach (int count in counts)
                 if (howMany == count)
                     return true;
-            */
+            
             return false;
         }
 
