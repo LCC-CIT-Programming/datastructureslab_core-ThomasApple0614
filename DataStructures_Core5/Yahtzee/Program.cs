@@ -64,10 +64,10 @@ namespace Yahtzee
             int compMoves = 0;
             bool userTurn = false;
 
-            ResetScorecard(userScoreCard);
-            ResetScorecard(compScoreCard);
+            //ResetScorecard(userScoreCard);
+            //ResetScorecard(compScoreCard);
 
-            Console.WindowHeight = 50;
+            Console.WindowHeight = 30;
             Console.WriteLine("It is your turn");
             UserPlay(userScoreCard, userMoves);
             Console.ReadLine();
@@ -434,8 +434,7 @@ namespace Yahtzee
             if (HasCount(2, counts) && HasCount(3, counts))
                 return 25;
             else
-            */
-            return 0;
+                return 0;
 
         }
 
